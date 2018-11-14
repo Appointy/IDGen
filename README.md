@@ -14,9 +14,9 @@ Generates url safe lexically sorted random ids with a prefix in go. Inspired fro
 package main
 
 import (
-	"fmt"
+    "fmt"
 	
-	"github.com/srikrsna/idgen"
+    "github.com/srikrsna/idgen"
 )
 
 func main()  {
