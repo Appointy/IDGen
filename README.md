@@ -6,7 +6,7 @@
 
 # idgen
 
-Generates url safe lexically sorted random ids with a prefix in go. Inspired from Stripe.
+Generates url safe lexically sorted universally unique ids with a prefix in go. Inspired from Stripe.
 
 ## Usage
 
