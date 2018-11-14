@@ -1,18 +1,21 @@
 language: go
+sudo: false
 
-go:
-  - 1.10.x
-  - 1.11.x
-  - tip
+matrix:
+  include:
+    - go: 1.10.x
+    - go: 1.11.x
+    - go: 1.x
+      env: LATEST=true
+    - go: tip
+  allow_failures:
+    - go: tip
 
 install:
-  - go get -u golang.org/x/tools/cmd/goimports
-  - go get -u github.com/golang/lint/golint
+  - # Skip
 
 script:
-  - go get -d -t ./...
-  - go vet ./...
-  - golint ./...
-  - go test ./...
-  - >
-    goimports -d -e ./ | grep '.*' && { echo; echo "Aborting due to non-empty goimports output."; exit 1; } || :
+  - go get -t -v ./...
+  - diff -u <(echo -n) <(gofmt -d .)
+  - if [[ "$LATEST" = true ]]; then go tool vet .; fi
+  - go test -v -race ./...

@@ -42,7 +42,7 @@ func TestPrefixGenerator_New(t *testing.T) {
 	pg := idgen.PrefixGenerator{
 		Prefix: prefix,
 	}
-	testPrefix(t, pg.New() ,prefix)
+	testPrefix(t, pg.New(), prefix)
 }
 
 func testPrefix(t *testing.T, id, prefix string) {

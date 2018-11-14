@@ -32,11 +32,12 @@ func putEntropy(r io.Reader) {
 	entropyPool.Put(r)
 }
 
-// PrefixGenerator generates a new id with the given prefix
+// PrefixGenerator is id generator with the provided prefix
 type PrefixGenerator struct {
 	Prefix string
 }
 
+// New generates a lexically sorted, url safe Id with available prefix
 func (p PrefixGenerator) New() string {
 	return New(p.Prefix)
 }
