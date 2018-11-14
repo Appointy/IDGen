@@ -1,3 +1,9 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/srikrsna/idgen)](https://goreportcard.com/report/github.com/srikrsna/idgen)
+[![Build Status](https://travis-ci.org/srikrsna/idgen.svg?branch=master)](https://travis-ci.org/srikrsna/idgen)
+[![Coverage](http://gocover.io/_badge/github.com/srikrsna/idgen)](http://gocover.io/github.com/srikrsna/idgen)
+<a href="https://godoc.org/github.com/srikrsna/idgen"><img src="https://img.shields.io/badge/godoc-reference-blue.svg"></a>
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # idgen
 
 Generates url safe lexically sorted random ids with a prefix in go. Inspired from Stripe.
