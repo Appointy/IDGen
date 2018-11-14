@@ -50,13 +50,16 @@ func TestUniqueness(t *testing.T) {
 }
 
 func TestLexicalOrder(t *testing.T) {
-	var ii [1000]string
+	var ii [20]string
 	for k := range ii {
 		ii[k] = idgen.New("cus")
 	}
 
 	if !sort.StringsAreSorted(ii[:]) {
 		t.Errorf("should generate lexically sorted ids")
+		for _, v := range ii {
+			t.Log(v)
+		}
 	}
 }
 
