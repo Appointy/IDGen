@@ -10,7 +10,7 @@ import (
 )
 
 // New generates a lexically sorted, url safe Id with a prefix.
-// Eg: cus_JSfjkdjf333j46, i.e. {prefix}-{ulid}
+// Eg: cus_JSfjkdjf333j46, i.e. {prefix}_{ulid}
 func New(prefix string) string {
 	ent := getEntropy()
 	res := prefix + "_" + ulid.MustNew(ulid.Now(), ent).String()
