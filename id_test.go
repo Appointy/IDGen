@@ -38,11 +38,22 @@ func TestURLSafe(t *testing.T) {
 	}
 }
 
+func TestUniqueness(t *testing.T) {
+	set := map[string]bool{}
+	for range [1000]struct{}{} {
+		id := idgen.New("cus")
+		if set[id] {
+			t.Errorf("generating repeated strings")
+		}
+
+		set[id] = true
+	}
+}
+
 func TestLexicalOrder(t *testing.T) {
-	gen := idgen.PrefixGenerator{Prefix: "cus"}
 	var ii [1000]string
 	for k := range ii {
-		ii[k] = gen.New()
+		ii[k] = idgen.New("cus")
 	}
 
 	if !sort.StringsAreSorted(ii[:]) {
