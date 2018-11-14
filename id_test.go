@@ -1,7 +1,6 @@
 package idgen_test
 
 import (
-	"fmt"
 	"net/url"
 	"sort"
 	"strings"
@@ -74,14 +73,6 @@ func testPrefix(t *testing.T, id, prefix string) {
 	if !strings.HasPrefix(id, prefix+"_") {
 		t.Errorf("New should return a ulid with the given prefix, expected: cus, got: %s", id)
 	}
-}
-
-func ExampleNew() {
-	id := idgen.New("cus")
-
-	fmt.Println(id[:4])
-
-	// Output: cus_
 }
 
 func BenchmarkNew(b *testing.B) {
