@@ -1,19 +1,22 @@
 package idgen_test
 
 import (
+	"math/rand"
 	"net/url"
 	"sort"
 	"strings"
 	"testing"
+	"time"
 
+	"github.com/google/uuid"
 	"github.com/oklog/ulid"
 
 	"github.com/srikrsna/idgen"
 )
 
-func TestPrefix(t *testing.T) {
+func TestNew(t *testing.T) {
 	prefix := "cus"
-	testPrefix(t, idgen.New(prefix), prefix)
+	testNew(t, idgen.New(prefix), prefix)
 }
 
 func TestULID(t *testing.T) {
@@ -39,7 +42,7 @@ func TestURLSafe(t *testing.T) {
 
 func TestUniqueness(t *testing.T) {
 	set := map[string]bool{}
-	for range [1000]struct{}{} {
+	for range [10000]struct{}{} {
 		id := idgen.New("cus")
 		if set[id] {
 			t.Errorf("generating repeated strings")
@@ -63,15 +66,98 @@ func TestLexicalOrder(t *testing.T) {
 	}
 }
 
-func TestPrefixGenerator_New(t *testing.T) {
+func TestGenerator_New(t *testing.T) {
 	const prefix = "cus"
-	pg := idgen.PrefixGenerator{
+	pg := idgen.Generator{
 		Prefix: prefix,
 	}
-	testPrefix(t, pg.New(), prefix)
+	testNew(t, pg.New(), prefix)
 }
 
-func testPrefix(t *testing.T, id, prefix string) {
+func TestPrefix(t *testing.T) {
+	tests := []struct {
+		name string
+		id   string
+		want string
+	}{
+		{
+			name: "Empty",
+			id:   "",
+			want: "",
+		},
+		{
+			name: "Good",
+			id:   idgen.New("cus"),
+			want: "cus",
+		},
+		{
+			name: "ulid",
+			id:   idgen.New("c")[2:],
+			want: "",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := idgen.Prefix(tt.id); got != tt.want {
+				t.Errorf("Prefix() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestTime(t *testing.T) {
+	tests := []struct {
+		name    string
+		id      string
+		want    uint64
+		wantErr error
+	}{
+		{
+			name:    "Empty",
+			id:      "",
+			want:    0,
+			wantErr: idgen.ErrMalformed,
+		},
+		{
+			name:    "Valid",
+			id:      "cus_" + ulid.MustNew(ulid.MaxTime(), rand.New(rand.NewSource(time.Now().UnixNano()))).String(),
+			want:    ulid.MaxTime(),
+			wantErr: nil,
+		},
+		{
+			name:    "Valid Without Prefix",
+			id:      ulid.MustNew(ulid.MaxTime(), rand.New(rand.NewSource(time.Now().UnixNano()))).String(),
+			want:    ulid.MaxTime(),
+			wantErr: nil,
+		},
+		{
+			name:    "Malformed",
+			id:      "cus_" + uuid.Must(uuid.NewUUID()).String(),
+			wantErr: idgen.ErrMalformed,
+			want:    0,
+		},
+		{
+			name:    "Just Prefix",
+			id:      "cus_",
+			wantErr: idgen.ErrMalformed,
+			want:    0,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := idgen.Time(tt.id)
+			if err != tt.wantErr {
+				t.Errorf("Time() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("Time() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func testNew(t *testing.T, id, prefix string) {
 	t.Helper()
 	if !strings.HasPrefix(id, prefix+"_") {
 		t.Errorf("New should return a ulid with the given prefix, expected: cus, got: %s", id)
