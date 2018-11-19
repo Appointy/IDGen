@@ -3,6 +3,7 @@ package idgen
 import (
 	"errors"
 	"io"
+	"math"
 	"math/rand"
 	"strings"
 	"sync"
@@ -35,7 +36,8 @@ func New(prefix string) string {
 
 var entropyPool = sync.Pool{
 	New: func() interface{} {
-		return ulid.Monotonic(rand.New(rand.NewSource(time.Now().UnixNano())), 0)
+		ns := time.Now().UnixNano()
+		return ulid.Monotonic(rand.New(rand.NewSource(ns)), uint64(ns)%math.MaxUint32)
 	},
 }
 

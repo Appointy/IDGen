@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"sort"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 
@@ -44,6 +45,36 @@ func TestUniqueness(t *testing.T) {
 	set := map[string]bool{}
 	for range [10000]struct{}{} {
 		id := idgen.New("cus")
+		if set[id] {
+			t.Errorf("generating repeated strings")
+		}
+
+		set[id] = true
+	}
+}
+
+func TestUniquenessParallel(t *testing.T) {
+	var wg sync.WaitGroup
+
+	ids := make(chan string, 1000)
+	for i := 0; i < 100; i++ {
+		go func(ids chan<- string) {
+			wg.Add(1)
+			defer wg.Done()
+
+			for i := 0; i < 100; i++ {
+				ids <- idgen.New("usr")
+			}
+		}(ids)
+	}
+
+	go func() {
+		wg.Wait()
+		close(ids)
+	}()
+
+	set := map[string]bool{}
+	for id := range ids {
 		if set[id] {
 			t.Errorf("generating repeated strings")
 		}
