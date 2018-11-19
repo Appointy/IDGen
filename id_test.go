@@ -58,8 +58,8 @@ func TestUniquenessParallel(t *testing.T) {
 
 	ids := make(chan string, 1000)
 	for i := 0; i < 100; i++ {
+		wg.Add(1)
 		go func(ids chan<- string) {
-			wg.Add(1)
 			defer wg.Done()
 
 			for i := 0; i < 100; i++ {
