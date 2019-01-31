@@ -1,4 +1,4 @@
-module github.com/srikrsna/idgen
+module github.com/appointy/idgen
 
 require (
 	github.com/google/uuid v1.0.0
