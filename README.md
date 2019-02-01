@@ -1,9 +1,9 @@
 # idgen
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/srikrsna/idgen)](https://goreportcard.com/report/github.com/srikrsna/idgen)
-[![Build Status](https://travis-ci.org/srikrsna/idgen.svg?branch=master)](https://travis-ci.org/srikrsna/idgen)
-[![Coverage](http://gocover.io/_badge/github.com/srikrsna/idgen)](http://gocover.io/github.com/srikrsna/idgen)
-<a href="https://godoc.org/github.com/srikrsna/idgen"><img src="https://img.shields.io/badge/godoc-reference-blue.svg"></a>
+[![Go Report Card](https://goreportcard.com/badge/github.com/appointy/idgen)](https://goreportcard.com/report/github.com/appointy/idgen)
+[![Build Status](https://travis-ci.org/appointy/idgen.svg?branch=master)](https://travis-ci.org/appointy/idgen)
+[![Coverage](http://gocover.io/_badge/github.com/appointy/idgen)](http://gocover.io/github.com/appointy/idgen)
+<a href="https://godoc.org/github.com/appointy/idgen"><img src="https://img.shields.io/badge/godoc-reference-blue.svg"></a>
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Generates url safe lexically sorted universally unique ids with a prefix in go. Inspired from Stripe.
@@ -16,7 +16,7 @@ package main
 import (
     "fmt"
 
-    "github.com/srikrsna/idgen"
+    "github.com/appointy/idgen"
 )
 
 func main()  {
