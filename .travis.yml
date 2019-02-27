@@ -5,6 +5,7 @@ matrix:
   include:
     - go: 1.10.x
     - go: 1.11.x
+    - go: 1.12.x
     - go: 1.x
       env: LATEST=true
     - go: tip
@@ -17,5 +18,5 @@ install:
 script:
   - go get -t -v ./...
   - diff -u <(echo -n) <(gofmt -d .)
-  - if [[ "$LATEST" = true ]]; then go tool vet .; fi
+  - if [[ "$LATEST" = true ]]; then go vet .; fi
   - go test -v ./...
