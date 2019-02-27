@@ -12,7 +12,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/oklog/ulid"
 
-	"github.com/srikrsna/idgen"
+	"github.com/appointy/idgen"
 )
 
 func TestNew(t *testing.T) {
